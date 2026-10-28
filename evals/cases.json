@@ -1,0 +1,22 @@
+[
+ {"q":"What does the ReAct pattern interleave?","gold":"ReAct pattern","expect":["reason"]},
+ {"q":"Why does ReAct reduce hallucination?","gold":"ReAct pattern","expect":["observation","grounded"]},
+ {"q":"How is a tool described in function calling?","gold":"Function calling","expect":["JSON schema"]},
+ {"q":"Who executes the tool when a model uses function calling?","gold":"Function calling","expect":["application"]},
+ {"q":"How does RAG keep answers current?","gold":"Retrieval-augmented generation","expect":["without retraining","retriev"]},
+ {"q":"What does an embedding model turn text into?","gold":"Embeddings","expect":["vector"]},
+ {"q":"What is a common way to rank passages against a question?","gold":"Embeddings","expect":["cosine"]},
+ {"q":"Why are long documents split into chunks with overlap?","gold":"Chunking","expect":["self-contained","context","fragment"]},
+ {"q":"What is the difference between short-term and long-term agent memory?","gold":"Agent memory","expect":["conversation"]},
+ {"q":"Where is long-term agent memory often stored?","gold":"Agent memory","expect":["database"]},
+ {"q":"What roles might specialized agents have in a multi-agent system?","gold":"Multi-agent systems","expect":["planner","researcher","writer"]},
+ {"q":"What does an orchestrator do?","gold":"Multi-agent systems","expect":["route"]},
+ {"q":"What protocol does an MCP server use to expose tools?","gold":"Model Context Protocol","expect":["JSON-RPC"]},
+ {"q":"What three things can an MCP server expose?","gold":"Model Context Protocol","expect":["resources"]},
+ {"q":"When should a human-in-the-loop agent pause?","gold":"Human in the loop","expect":["risky","irreversible"]},
+ {"q":"Why are approvals logged in human-in-the-loop systems?","gold":"Human in the loop","expect":["audit"]},
+ {"q":"Name two things production agents need besides rate limiting.","gold":"Production agents","expect":["guardrail","observability","evaluation","cost"]},
+ {"q":"How is Workers AI called from a Worker?","gold":"Cloudflare Workers AI","expect":["binding"]},
+ {"q":"Why is Workers AI suitable for demos?","gold":"Cloudflare Workers AI","expect":["free"]},
+ {"q":"How can another model be used in agent evaluation?","gold":"Evaluation","expect":["judge"]}
+]

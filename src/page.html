@@ -1,15 +1,36 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>RAG Agent</title>
-<style>body{font-family:system-ui;max-width:760px;margin:32px auto;padding:0 16px;background:#0b1730;color:#eef}a{color:#9cf}textarea,input,select,button{font-size:15px;padding:8px;border-radius:6px;border:1px solid #345;background:#13234a;color:#eef}textarea{width:100%;box-sizing:border-box}button{cursor:pointer;background:#2b5bd7}pre{background:#13234a;padding:12px;white-space:pre-wrap;border-radius:6px;max-height:480px;overflow:auto}.row{display:flex;gap:8px;margin:8px 0}</style></head>
-<body><h1>RAG Agent</h1><p>Ask questions about agentic AI. The agent embeds a 12-doc knowledge base, retrieves the best passages by cosine similarity, and answers with citations.</p>
-<div class=row><select id=ep><option value="0">POST /api/ask — ask with citations</option><option value="1">POST /api/ask — out-of-scope (should say I don't know)</option><option value="2">GET /api/docs — list knowledge base</option></select><button id=go>Send</button></div>
-<textarea id=bd rows=5></textarea><p style="opacity:.7;font-size:13px">Edit the JSON body and press Send. Rate limited to keep this demo on the free tier. Source on <a href="https://github.com/braylo777/agent-05-rag">GitHub</a>.</p>
-<h3>Response</h3><pre id=out></pre>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RAG Agent · Braylo</title><style>:root{--navy:#0d1520;--cream:#efe9dc;--brass:#b39b70;--ink:#16202e;--line:#253246}
+*{box-sizing:border-box}body{margin:0;background:var(--navy);color:var(--cream);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:40px 20px 56px}
+header .tag{color:var(--brass);letter-spacing:.14em;text-transform:uppercase;font-size:12px;font-weight:600}
+h1{font-family:Georgia,serif;font-weight:500;font-size:34px;margin:6px 0 8px}
+.lead{opacity:.82;max-width:640px;margin:0 0 24px}
+.card{background:var(--ink);border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0}
+.card h2{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);margin:0 0 10px;font-weight:600}
+textarea,input,select{width:100%;font:inherit;color:var(--cream);background:var(--navy);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+textarea:focus,input:focus,select:focus{outline:none;border-color:var(--brass)}
+button{font:inherit;font-weight:600;background:var(--brass);color:var(--navy);border:0;border-radius:8px;padding:10px 18px;cursor:pointer}
+button.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}button:disabled{opacity:.5;cursor:wait}
+.row{display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap}.row>input,.row>select{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{font-size:13px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--cream);font-weight:400}
+.chip:hover{border-color:var(--brass)}
+.out{white-space:pre-wrap;min-height:48px}.meta{font-size:12px;opacity:.6;margin-top:8px}
+.pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:rgba(179,155,112,.15);color:var(--brass);margin:2px 4px 2px 0}
+pre{background:var(--navy);border:1px solid var(--line);border-radius:8px;padding:12px;overflow:auto;font-size:13px;max-height:360px;margin:0}
+footer{margin-top:28px;font-size:13px;opacity:.65}a{color:var(--brass)}
+</style></head>
+<body><div class="wrap"><header><div class="tag">Project 05 · Agentic AI portfolio</div><h1>RAG Agent</h1>
+<p class="lead">Retrieval-augmented generation: your question is embedded (BGE), matched against a 12-document knowledge base by cosine similarity, and answered by Llama 3.3 only from the top sources, with citations.</p></header>
+<div class="card"><h2>Ask the knowledge base</h2><div class="chips" id="ex"></div>
+<div class="row"><input id="q" maxlength="500" placeholder="Ask about agents, RAG, MCP…"><button id="go">Ask</button></div></div>
+<div class="card"><h2>Answer</h2><div id="ans" class="out"><span class="meta">Ask a question to see a cited answer.</span></div><div id="meta" class="meta"></div></div>
+<div class="card"><h2>Retrieved sources</h2><div id="src"><span class="meta">Top-3 passages appear here with similarity scores.</span></div></div>
+<footer>Runs on Cloudflare Workers AI · rate limited to stay on the free tier · <a href="https://github.com/braylo777/agent-05-rag">Source on GitHub</a></footer></div>
 <script>
-const S=localStorage.sid||(localStorage.sid=Math.random().toString(36).slice(2,10));
-const E=[{"label": "ask with citations", "method": "POST", "path": "/api/ask", "body": {"question": "How does an agent decide when to ask a human before acting?"}}, {"label": "out-of-scope (should say I don't know)", "method": "POST", "path": "/api/ask", "body": {"question": "Who won the 1998 World Cup?"}}, {"label": "list knowledge base", "method": "GET", "path": "/api/docs"}];
-const fill=()=>{const x=E[ep.value];bd.value=x.body?JSON.stringify(x.body,null,2).replaceAll("{{session}}",S):"";bd.disabled=x.method==="GET"};
-ep.onchange=fill;fill();
-go.onclick=async()=>{const x=E[ep.value];out.textContent="working…";const t0=Date.now();
-try{const r=await fetch(x.path.replaceAll("{{session}}",S),x.method==="GET"?{}:{method:"POST",headers:{"content-type":"application/json"},body:bd.value});
-out.textContent=`HTTP ${r.status} · ${Date.now()-t0} ms\n\n`+JSON.stringify(await r.json(),null,2)}catch(e){out.textContent=String(e)}};
+const $=id=>document.getElementById(id);const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+["What is the ReAct pattern?","How does MCP expose tools?","Why chunk documents with overlap?"].forEach(t=>{const b=document.createElement("button");b.className="chip";b.textContent=t;b.onclick=()=>{$("q").value=t;go()};$("ex").append(b)});
+async function go(){const q=$("q").value.trim();if(!q)return;$("go").disabled=true;$("ans").textContent="Retrieving and answering…";const t=Date.now();
+try{const r=await fetch("/api/ask",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({question:q})});const j=await r.json();
+$("ans").textContent=j.answer||("Error: "+j.error);$("src").innerHTML=(j.sources||[]).map(s=>`<div><span class="pill">[${s.ref}] ${s.score}</span> ${esc(s.title)}</div>`).join("");$("meta").textContent=`HTTP ${r.status} · ${Date.now()-t} ms`}
+catch(e){$("ans").textContent=String(e)}$("go").disabled=false}
+$("go").onclick=go;$("q").onkeydown=e=>{if(e.key==="Enter")go()};
 </script></body></html>

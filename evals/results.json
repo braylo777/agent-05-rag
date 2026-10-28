@@ -1,0 +1,402 @@
+{
+  "project": "agent-05-rag",
+  "base": "https://agent-05-rag.braylo777.workers.dev",
+  "models": {
+    "embed": "@cf/baai/bge-base-en-v1.5",
+    "llm": "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+  },
+  "run_at": "2026-10-28T00:25:48.458Z",
+  "n_cases": 20,
+  "corpus_docs": 12,
+  "k": 3,
+  "metrics": {
+    "hit_at_1": {
+      "correct": 19,
+      "n": 20,
+      "rate": 0.95
+    },
+    "hit_at_3": {
+      "correct": 20,
+      "n": 20,
+      "rate": 1
+    },
+    "citation_accuracy": {
+      "correct": 20,
+      "n": 20,
+      "rate": 1
+    },
+    "answer_accuracy": {
+      "correct": 18,
+      "n": 20,
+      "rate": 0.9
+    },
+    "latency_ms": {
+      "n": 20,
+      "p50": 844,
+      "p95": 2028,
+      "note": "end-to-end /api/ask, measured from the eval client"
+    }
+  },
+  "cases": [
+    {
+      "i": 0,
+      "q": "What does the ReAct pattern interleave?",
+      "gold": "ReAct pattern",
+      "retrieved": [
+        "ReAct pattern",
+        "Chunking",
+        "Function calling"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "The ReAct pattern interleaves reasoning and acting [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 1,
+      "q": "Why does ReAct reduce hallucination?",
+      "gold": "ReAct pattern",
+      "retrieved": [
+        "ReAct pattern",
+        "Model Context Protocol",
+        "Evaluation"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "ReAct reduces hallucination because answers are grounded in observations [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 2,
+      "q": "How is a tool described in function calling?",
+      "gold": "Function calling",
+      "retrieved": [
+        "Function calling",
+        "Model Context Protocol",
+        "ReAct pattern"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "A tool is described by a JSON schema with a name and parameters in function calling [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 3,
+      "q": "Who executes the tool when a model uses function calling?",
+      "gold": "Function calling",
+      "retrieved": [
+        "Function calling",
+        "Model Context Protocol",
+        "ReAct pattern"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "The application executes the tool when a model uses function calling [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 4,
+      "q": "How does RAG keep answers current?",
+      "gold": "Retrieval-augmented generation",
+      "retrieved": [
+        "Retrieval-augmented generation",
+        "Agent memory",
+        "ReAct pattern"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "RAG keeps answers current without retraining [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 5,
+      "q": "What does an embedding model turn text into?",
+      "gold": "Embeddings",
+      "retrieved": [
+        "Embeddings",
+        "Retrieval-augmented generation",
+        "Chunking"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "An embedding model turns text into a vector of numbers [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 6,
+      "q": "What is a common way to rank passages against a question?",
+      "gold": "Embeddings",
+      "retrieved": [
+        "Retrieval-augmented generation",
+        "Embeddings",
+        "Chunking"
+      ],
+      "cited": [
+        2
+      ],
+      "answer": "[2] states that a common way to rank which passages best match a question is by using cosine similarity between vectors.",
+      "hit1": false,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 7,
+      "q": "Why are long documents split into chunks with overlap?",
+      "gold": "Chunking",
+      "retrieved": [
+        "Chunking",
+        "Retrieval-augmented generation",
+        "Embeddings"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "Good chunking keeps each piece self-contained so retrieval returns useful context rather than fragments [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 8,
+      "q": "What is the difference between short-term and long-term agent memory?",
+      "gold": "Agent memory",
+      "retrieved": [
+        "Agent memory",
+        "ReAct pattern",
+        "Multi-agent systems"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "According to [1], the difference between short-term and long-term agent memory is that short-term memory is used for the current conversation, while long-term memory is used for durable facts about a user or task and is often stored in a database.",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 9,
+      "q": "Where is long-term agent memory often stored?",
+      "gold": "Agent memory",
+      "retrieved": [
+        "Agent memory",
+        "Production agents",
+        "Multi-agent systems"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "[1]",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": false
+    },
+    {
+      "i": 10,
+      "q": "What roles might specialized agents have in a multi-agent system?",
+      "gold": "Multi-agent systems",
+      "retrieved": [
+        "Multi-agent systems",
+        "Production agents",
+        "Agent memory"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "According to [1], specialized agents in a multi-agent system might have roles such as a planner, a researcher, and a writer.",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 11,
+      "q": "What does an orchestrator do?",
+      "gold": "Multi-agent systems",
+      "retrieved": [
+        "Multi-agent systems",
+        "Production agents",
+        "Human in the loop"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "An orchestrator routes tasks and passes outputs between specialized agents [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 12,
+      "q": "What protocol does an MCP server use to expose tools?",
+      "gold": "Model Context Protocol",
+      "retrieved": [
+        "Model Context Protocol",
+        "Function calling",
+        "Cloudflare Workers AI"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "[1]",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": false
+    },
+    {
+      "i": 13,
+      "q": "What three things can an MCP server expose?",
+      "gold": "Model Context Protocol",
+      "retrieved": [
+        "Model Context Protocol",
+        "Cloudflare Workers AI",
+        "Function calling"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "An MCP server can expose the following three things: \n1. tools\n2. resources\n3. prompts [1]",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 14,
+      "q": "When should a human-in-the-loop agent pause?",
+      "gold": "Human in the loop",
+      "retrieved": [
+        "Human in the loop",
+        "Production agents",
+        "ReAct pattern"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "A human-in-the-loop agent should pause before risky or irreversible actions [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 15,
+      "q": "Why are approvals logged in human-in-the-loop systems?",
+      "gold": "Human in the loop",
+      "retrieved": [
+        "Human in the loop",
+        "Production agents",
+        "Cloudflare Workers AI"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "Approvals are logged for auditing [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 16,
+      "q": "Name two things production agents need besides rate limiting.",
+      "gold": "Production agents",
+      "retrieved": [
+        "Production agents",
+        "Multi-agent systems",
+        "Evaluation"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "Two things production agents need besides rate limiting are: \n1. Input and output guardrails \n2. Observability with traces and logs [1]",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 17,
+      "q": "How is Workers AI called from a Worker?",
+      "gold": "Cloudflare Workers AI",
+      "retrieved": [
+        "Cloudflare Workers AI",
+        "Multi-agent systems",
+        "Human in the loop"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "Workers AI is called from a Worker through an AI binding [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 18,
+      "q": "Why is Workers AI suitable for demos?",
+      "gold": "Cloudflare Workers AI",
+      "retrieved": [
+        "Cloudflare Workers AI",
+        "Production agents",
+        "Multi-agent systems"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "Workers AI is suitable for demos because it has a free daily allocation, which eliminates the need for paid API keys [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    },
+    {
+      "i": 19,
+      "q": "How can another model be used in agent evaluation?",
+      "gold": "Evaluation",
+      "retrieved": [
+        "Evaluation",
+        "Model Context Protocol",
+        "Production agents"
+      ],
+      "cited": [
+        1
+      ],
+      "answer": "Another model can be used in agent evaluation as a judge to measure accuracy, tool use, and safety, sometimes judging the agent's performance against expected outputs or graded rubrics [1].",
+      "hit1": true,
+      "hit3": true,
+      "citation_ok": true,
+      "answer_ok": true
+    }
+  ]
+}
