@@ -1,4 +1,5 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RAG Agent · Braylo</title><style>:root{--navy:#0d1520;--cream:#efe9dc;--brass:#b39b70;--ink:#16202e;--line:#253246}
+//! Demo page (generated from the old src/page.html; kept as a Rust string).
+pub const PAGE: &str = r####"<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RAG Agent · Braylo</title><style>:root{--navy:#0d1520;--cream:#efe9dc;--brass:#b39b70;--ink:#16202e;--line:#253246}
 *{box-sizing:border-box}body{margin:0;background:var(--navy);color:var(--cream);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
 .wrap{max-width:860px;margin:0 auto;padding:40px 20px 56px}
 header .tag{color:var(--brass);letter-spacing:.14em;text-transform:uppercase;font-size:12px;font-weight:600}
@@ -34,3 +35,4 @@ $("ans").textContent=j.answer||("Error: "+j.error);$("src").innerHTML=(j.sources
 catch(e){$("ans").textContent=String(e)}$("go").disabled=false}
 $("go").onclick=go;$("q").onkeydown=e=>{if(e.key==="Enter")go()};
 </script></body></html>
+"####;
